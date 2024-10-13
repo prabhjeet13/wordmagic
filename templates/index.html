@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Translytica - Text Translator</title>
+    <style>
+        /* Global Styles */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Arial, sans-serif';
+            background-color: #e0f7fa;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            animation: backgroundFade 3s ease-in-out infinite alternate;
+        }
+
+        /* Container Styles */
+        .translator-container {
+            background-color: #ffffff;
+            padding: 30px 40px; /* Reduced padding */
+            border-radius: 15px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+            max-width: 600px;
+            width: 90%;
+            animation: fadeIn 1.5s ease-out;
+            display: flex;
+            flex-direction: column;
+            gap: 20px; /* Reduced gap */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        /* Hover Effect for Container */
+        .translator-container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Heading Styles */
+        .translator-container h1, .translator-container h2 {
+            text-align: center;
+            font-weight: bold;
+            color: #333333;
+            text-transform: uppercase;
+            transition: color 0.3s ease;
+            margin: 0; /* Remove default margins */
+        }
+
+        /* Adjusted Font Sizes */
+        .translator-container h1 {
+            font-size: 24px; /* Reduced from larger size */
+        }
+
+        .translator-container h2 {
+            font-size: 16px; /* Reduced from larger size */
+        }
+
+        /* Form Styles */
+        #translate-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px; /* Reduced gap */
+            animation: slideIn 1s ease-out;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px; /* Reduced gap */
+        }
+
+        label {
+            font-weight: bold;
+            color: #555555;
+            transition: color 0.3s ease;
+            font-size: 14px; /* Reduced font size */
+        }
+
+        /* Hover Effect for Labels */
+        label:hover {
+            color: #007BFF;
+        }
+
+        textarea, select {
+            padding: 10px; /* Reduced padding */
+            border: 1px solid #cccccc;
+            border-radius: 8px;
+            font-size: 14px; /* Reduced font size */
+            resize: vertical;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        textarea {
+            height: 100px; /* Reduced height from rows=6 */
+        }
+
+        select {
+            height: 40px; /* Ensures uniform height */
+        }
+
+        textarea:focus, select:focus {
+            border-color: #007BFF;
+            box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+            outline: none;
+        }
+
+        button {
+            padding: 12px; /* Reduced padding */
+            background-color: #007BFF;
+            color: #ffffff;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px; /* Reduced font size */
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 4px 10px rgba(0, 123, 255, 0.3);
+        }
+
+        button:hover {
+            background-color: #0056b3;
+            transform: scale(1.05);
+            box-shadow: 0 6px 15px rgba(0, 123, 255, 0.4);
+        }
+
+        /* Translated Text Styles */
+        #translated-text {
+            background-color: #f1f1f1;
+            padding: 15px; /* Reduced padding */
+            border-radius: 8px;
+            min-height: 50px; /* Reduced min-height */
+            box-shadow: inset 0 2px 5px rgba(0,0,0,0.1);
+            color: #333333;
+            font-size: 16px; /* Reduced font size */
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        /* Hover Effect for Translated Text */
+        #translated-text:hover {
+            background-color: #e0f7fa;
+            color: #007BFF;
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes backgroundFade {
+            0% { background-color: #e0f7fa; }
+            100% { background-color: #f0f4f8; }
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateX(-50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 700px) {
+            .translator-container {
+                padding: 25px 15px; /* Further reduced padding */
+            }
+
+            .translator-container h1 {
+                font-size: 20px;
+            }
+
+            .translator-container h2 {
+                font-size: 14px;
+            }
+
+            textarea, select {
+                font-size: 13px;
+                padding: 8px;
+            }
+
+            button {
+                font-size: 14px;
+                padding: 10px;
+            }
+
+            #translated-text {
+                font-size: 14px;
+                padding: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="translator-container">
+        <h1>Translytica - WORD MAGIC</h1>
+        <form id="translate-form">
+            <div class="form-group">
+                <label for="text">Text to Translate:</label>
+                <textarea id="text" name="text" rows="4" placeholder="Enter the text you want to translate..." required></textarea>
+            </div>
+            <div class="form-group">
+                <label for="target_lang">Target Language:</label>
+                <select id="target_lang" name="target_lang" required>
+                    <option value="" disabled selected>Select Language</option>
+                    <option value="es">Spanish (ES)</option>
+                    <option value="en">English (EN)</option>
+                    <option value="fr">French (FR)</option>
+                    <option value="de">German (DE)</option>
+                    <option value="ja">Japanese (JA)</option>
+                    <option value="ru">Russian (RU)</option>
+                    <option value="ar">Arabic (AR)</option>
+                    <option value="hi">Hindi (HI)</option>
+                    <option value="pt">Portuguese (PT)</option>
+                    <option value="it">Italian (IT)</option>
+                    <!-- Add more languages as needed -->
+                </select>
+            </div>
+            <button type="submit">Translate</button>
+        </form>
+
+        <h2>Translated Text:</h2>
+        <p id="translated-text">Your translated text will appear here.</p>
+    </div>
+
+    <script>
+        document.getElementById('translate-form').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const text = document.getElementById('text').value.trim();
+            const targetLang = document.getElementById('target_lang').value;
+
+            if (!text) {
+                alert('Please enter text to translate.');
+                return;
+            }
+
+            if (!targetLang) {
+                alert('Please select a target language.');
+                return;
+            }
+
+            fetch('/translate', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ text: text, target_lang: targetLang }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.error) {
+                    document.getElementById('translated-text').innerText = `Error: ${data.error}`;
+                } else {
+                    document.getElementById('translated-text').innerText = `${data.translated_text}`;
+                }
+            })
+            .catch((error) => {
+                console.error('Error:', error);
+                document.getElementById('translated-text').innerText = 'An unexpected error occurred.';
+            });
+        });
+    </script>
+</body>
+</html>
